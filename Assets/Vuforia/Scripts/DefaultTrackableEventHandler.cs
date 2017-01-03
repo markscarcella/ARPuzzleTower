@@ -14,13 +14,13 @@ namespace Vuforia
     public class DefaultTrackableEventHandler : MonoBehaviour,
                                                 ITrackableEventHandler
     {
+		static public bool isTracked;
+
         #region PRIVATE_MEMBER_VARIABLES
  
         private TrackableBehaviour mTrackableBehaviour;
     
         #endregion // PRIVATE_MEMBER_VARIABLES
-
-
 
         #region UNTIY_MONOBEHAVIOUR_METHODS
     
@@ -52,10 +52,12 @@ namespace Vuforia
                 newStatus == TrackableBehaviour.Status.EXTENDED_TRACKED)
             {
                 OnTrackingFound();
+				isTracked = true;
             }
             else
             {
                 OnTrackingLost();
+				isTracked = false;
             }
         }
 

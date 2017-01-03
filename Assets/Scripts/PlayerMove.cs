@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
+using Vuforia;
 
 public class PlayerMove : MonoBehaviour {
 
+	public int speed;
+	public bool moveOnCircle;
+	public bool trackCamera;
+
 	Rigidbody rb;
+	float timeCounter;
 
 	// Use this for initialization
 	void Start () {
@@ -13,21 +19,50 @@ public class PlayerMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		// Point towards middle of target
-		transform.forward = new Vector3(Camera.main.transform.forward.x, 0.0f, Camera.main.transform.forward.z);
 
-		float h = CrossPlatformInputManager.GetAxis("Horizontal");
-		float v = CrossPlatformInputManager.GetAxis("Vertical");
-
-		if (h != 0)
+		if (DefaultTrackableEventHandler.isTracked)
 		{
-			rb.AddForce(Camera.main.transform.right * h * 10);
+			rb.isKinematic = false;
+		}
+		else
+		{
+			rb.isKinematic = true;
 		}
 
-//		if (v != 0)
-//		{
-//			rb.AddForce(Vector3.up * h);
-//		}
-//
+		if (trackCamera)
+		{
+			transform.forward = new Vector3(Camera.main.transform.forward.x, 0.0f, Camera.main.transform.forward.z);
+		}
+		else
+		{
+			transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
+		}
+
+		// Point towards middle of target
+		if (moveOnCircle)
+		{
+			timeCounter += CrossPlatformInputManager.GetAxis("Horizontal") * Time.deltaTime * speed * 1000;
+			float x = Mathf.Cos (timeCounter);
+			float y = transform.position.y;
+			float z = Mathf.Sin (timeCounter);
+			transform.position = new Vector3 (x, y, z);
+		}
+
+		else
+		{
+			float h = CrossPlatformInputManager.GetAxis("Horizontal");
+			float v = CrossPlatformInputManager.GetAxis("Vertical");
+			if (h != 0)
+			{
+				rb.AddForce(transform.right * h * speed);
+			}
+			if (v != 0)
+			{
+				rb.AddForce(transform.forward * v * speed);
+			}
+	
+		}
+
+
 	}
 }
