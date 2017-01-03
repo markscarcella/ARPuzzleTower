@@ -1,14 +1,30 @@
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2008
 
-
+Project("{F95ABEA0-94A8-F741-6ECC-514A6BDD3F59}") = "ARPuzzleTower", "Assembly-CSharp-firstpass.csproj", "{723C25AF-B869-3C39-72F7-A5D61BAB943C}"
+EndProject
+Project("{F95ABEA0-94A8-F741-6ECC-514A6BDD3F59}") = "ARPuzzleTower", "Assembly-CSharp.csproj", "{D3C29D63-0617-66D6-7814-3E99BDC2DD56}"
+EndProject
+Project("{F95ABEA0-94A8-F741-6ECC-514A6BDD3F59}") = "ARPuzzleTower", "Assembly-CSharp-Editor.csproj", "{558F8911-C541-A5E0-6306-38A8F0C40BE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-
+		{723C25AF-B869-3C39-72F7-A5D61BAB943C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{723C25AF-B869-3C39-72F7-A5D61BAB943C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{723C25AF-B869-3C39-72F7-A5D61BAB943C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{723C25AF-B869-3C39-72F7-A5D61BAB943C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3C29D63-0617-66D6-7814-3E99BDC2DD56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3C29D63-0617-66D6-7814-3E99BDC2DD56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3C29D63-0617-66D6-7814-3E99BDC2DD56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3C29D63-0617-66D6-7814-3E99BDC2DD56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{558F8911-C541-A5E0-6306-38A8F0C40BE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{558F8911-C541-A5E0-6306-38A8F0C40BE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{558F8911-C541-A5E0-6306-38A8F0C40BE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{558F8911-C541-A5E0-6306-38A8F0C40BE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
