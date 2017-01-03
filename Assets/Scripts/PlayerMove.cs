@@ -40,29 +40,31 @@ public class PlayerMove : MonoBehaviour {
 			transform.LookAt(new Vector3(0.0f, transform.position.y, 0.0f));
 		}
 
-		// Point towards middle of target
-		if (moveOnCircle)
+//		// Point towards middle of target
+//		if (moveOnCircle)
+//		{
+//			timeCounter += CrossPlatformInputManager.GetAxis("Horizontal") * Time.deltaTime * speed * 1000;
+//			float x = Mathf.Cos (timeCounter);
+//			float y = transform.position.y;
+//			float z = Mathf.Sin (timeCounter);
+//			transform.position = new Vector3 (x, y, z);
+//		}
+//
+//		else
+//		{
+		float h = CrossPlatformInputManager.GetAxis("Horizontal");
+		float v = CrossPlatformInputManager.GetAxis("Vertical");
+
+		if (h != 0)
 		{
-			timeCounter += CrossPlatformInputManager.GetAxis("Horizontal") * Time.deltaTime * speed * 1000;
-			float x = Mathf.Cos (timeCounter);
-			float y = transform.position.y;
-			float z = Mathf.Sin (timeCounter);
-			transform.position = new Vector3 (x, y, z);
+			rb.AddForce(transform.right * h * speed);
 		}
 
-		else
+		if (v != 0)
 		{
-			float h = CrossPlatformInputManager.GetAxis("Horizontal");
-			float v = CrossPlatformInputManager.GetAxis("Vertical");
-			if (h != 0)
-			{
-				rb.AddForce(transform.right * h * speed);
-			}
-			if (v != 0)
-			{
-				rb.AddForce(transform.forward * v * speed);
-			}
+			rb.AddForce(transform.forward * v * speed);
 		}
+		//}
 
 		if (CrossPlatformInputManager.GetButton("Jump") && isGrounded)
 		{
