@@ -6,6 +6,8 @@ using Vuforia;
 public class PlayerMove : MonoBehaviour {
 
 	public int speed;
+	public int jumpForce;
+	public bool isGrounded;
 	public bool moveOnCircle;
 	public bool trackCamera;
 
@@ -60,9 +62,35 @@ public class PlayerMove : MonoBehaviour {
 			{
 				rb.AddForce(transform.forward * v * speed);
 			}
-	
 		}
 
+		if (CrossPlatformInputManager.GetButton("Jump") && isGrounded)
+		{
+			rb.AddForce(transform.up * jumpForce);
+		}
+	}
 
+	void OnTriggerEnter(Collider coll)
+	{
+		if (coll.gameObject.tag == "Jumpable")
+		{
+			isGrounded = true;	
+		}
+		else
+		{
+			isGrounded = false;
+		}
+	}
+
+	void OnTriggerExit(Collider coll)
+	{
+		if (coll.gameObject.tag == "Jumpable")
+		{
+			isGrounded = false;	
+		}
+		else
+		{
+			isGrounded = true;
+		}
 	}
 }
