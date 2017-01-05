@@ -7,11 +7,13 @@ public class PlayerMove : MonoBehaviour {
 
 	public int moveSpeed;
 	public int jumpSpeed;
+	public AudioClip jumpSound;
 
 	public bool isGrounded;
 
 	GameManager gameManager;
 	Rigidbody rb;
+	AudioSource audioSource;
 	RaycastHit hit;
 	float timeCounter;
 
@@ -24,6 +26,9 @@ public class PlayerMove : MonoBehaviour {
 
 		// get the Rigidbody of the player
 		rb = GetComponent<Rigidbody>();
+
+		// get the AudioSource of the player
+		audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -54,6 +59,9 @@ public class PlayerMove : MonoBehaviour {
 		{
 			// set the velocity of the player
 			rb.velocity = transform.up * jumpSpeed;
+
+			// play the jump sound
+			audioSource.PlayOneShot(jumpSound);
 		}
 	}
 
