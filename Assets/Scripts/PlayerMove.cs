@@ -5,24 +5,23 @@ using UnityStandardAssets.CrossPlatformInput;
 
 public class PlayerMove : MonoBehaviour {
 
+	// Define the player move speed
 	public int moveSpeed;
+
+	// Define the player jump speed
 	public int jumpSpeed;
+
+	// Define the player jump sound
 	public AudioClip jumpSound;
 
-	public bool isGrounded;
-
-	GameManager gameManager;
+	// Define the rigid body
 	Rigidbody rb;
-	AudioSource audioSource;
-	RaycastHit hit;
-	float timeCounter;
 
+	// Define the audio souce
+	AudioSource audioSource;
 
 	// Use this for initialization
 	void Start () {
-
-		// get the GameManager
-		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
 		// get the Rigidbody of the player
 		rb = GetComponent<Rigidbody>();
@@ -30,20 +29,10 @@ public class PlayerMove : MonoBehaviour {
 		// get the AudioSource of the player
 		audioSource = GetComponent<AudioSource>();
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 
-		// if the target loses tracking, turn off physics for the player
-		if (DefaultTrackableEventHandler.isTracked)
-		{
-			rb.isKinematic = false;
-		}
-		else
-		{
-			rb.isKinematic = true;
-		}
-			
 		// get the horizontal and vertical axis directions
 		float h = CrossPlatformInputManager.GetAxis("Horizontal");
 		float v = CrossPlatformInputManager.GetAxis("Vertical");
@@ -55,7 +44,7 @@ public class PlayerMove : MonoBehaviour {
 		rb.velocity = transform.TransformDirection(h * moveSpeed, localVelocity.y, v * moveSpeed);
 
 		// check if jump is tapped and the player is grounded
-		if (CrossPlatformInputManager.GetButton("Jump") && isGrounded)
+		if (CrossPlatformInputManager.GetButton("Jump") && GroundCheck())
 		{
 			// set the velocity of the player
 			rb.velocity = transform.up * jumpSpeed;
@@ -64,32 +53,15 @@ public class PlayerMove : MonoBehaviour {
 			audioSource.PlayOneShot(jumpSound);
 		}
 	}
-
-	void OnTriggerEnter(Collider coll)
+		
+	bool GroundCheck()
 	{
-		if (coll.gameObject.tag == "Ground")
+		// Raycast downwards form the player and check if we hit something
+		RaycastHit hit;
+		if (Physics.Raycast(transform.position, -transform.up, out hit, transform.localScale.y + 0.01f))
 		{
-			isGrounded = true;	
+			return true;
 		}
-		else if (coll.gameObject.tag == "Death")
-		{
-			gameManager.EndGame(false);
-		}
-		else
-		{
-			isGrounded = false;
-		}
-	}
-
-	void OnTriggerExit(Collider coll)
-	{
-		if (coll.gameObject.tag == "Ground")
-		{
-			isGrounded = false;	
-		}
-		else
-		{
-			isGrounded = true;
-		}
+		return false;
 	}
 }

@@ -4,68 +4,76 @@ using Vuforia;
 
 public class TowerFall : MonoBehaviour {
 
+	// Define the explosion AudioClip
 	public AudioClip explosionSound;
-	public AudioClip fallingSound;
-	public float secondsUntilExplosion;
+
+	// Define the seconds until fall float
+	public float secondsUntilFall;
+
+	// Define the fall speed float
 	public float fallSpeed;
 
+	// Define the AudioSource
 	AudioSource audioSource;
 
-	float explosionTimer;
-	float fallingTimer;
+	// Define isFalling and fallTimer
 	bool isFalling;
+	float fallTimer;
 
-	float shakeTimer;
-	bool doneShaking;
+	// Define isExploding and explosionTimer
+	bool isExploding;
+	float explosionTimer;
 
 	// Use this for initialization
 	void Start () {
+
+		// get the audio source
 		audioSource = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+	
+		// update fall timer
+		fallTimer += Time.deltaTime;
 
-		if (DefaultTrackableEventHandler.isTracked)
+		// if enough time has passed, explode!
+		if (fallTimer > secondsUntilFall)
 		{
-			if (explosionTimer > secondsUntilExplosion)
-			{
-				Explode();
-			}
-			else
-			{
-				explosionTimer += Time.deltaTime;
-			}
+			Explode();
 		}
 	}
 
 	void Explode()
 	{
-		if (!isFalling)
+		// if falling, move transform down
+		if (isFalling)
+		{
+			transform.Translate(-transform.up * fallSpeed * Time.deltaTime);
+		}
+		// else play explosion sound and explode
+		else
 		{
 			audioSource.PlayOneShot(explosionSound);
 			isFalling = true;
-		}
-		else
-		{
-			transform.Translate(transform.up * -fallSpeed * Time.deltaTime);
-			if (fallingTimer > 1.0f)
-			{
-				audioSource.PlayOneShot(fallingSound);
-				fallingTimer = 0.0f;
-			}
-			fallingTimer += Time.deltaTime;
+			isExploding = true;
 		}
 
-		if (shakeTimer < 0.5f)
+		if (isExploding)
 		{
-			transform.position = Random.onUnitSphere * 0.1f;
-			shakeTimer += Time.deltaTime;
-		}
-		else if (!doneShaking)
-		{
-			transform.position = Vector3.zero;
-			doneShaking = true;
+			// update explision timer
+			explosionTimer += Time.deltaTime;
+			// if still exploding, randomly move the tower
+			if (explosionTimer < 0.5f)
+			{
+				transform.position = Random.onUnitSphere * 0.1f;
+			}
+			// else set back to start position and end explosion
+			else
+			{
+				transform.position = Vector3.zero;
+				isExploding = false;
+			}
 		}
 	}
 }
